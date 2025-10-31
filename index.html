@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Фан-сайт — Футбол</title>
+  <meta name="description" content="Фан-сайт у вигляді односторінкового демо — HTML/CSS/JS в одному файлі." />
+  <style>
+    :root{
+      --bg:#071428; --card:#0b1b2b; --accent:#e63946; --accent-2:#ffd166; --muted:#9fb3c8; --glass:rgba(255,255,255,0.03);
+      --radius:12px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;color:#f1f7fb;background:linear-gradient(180deg,#06202c,#02101a)}
+    .wrap{max-width:1100px;margin:28px auto;padding:18px}
+
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(180deg,#ffd166,#ff8fa3);display:flex;align-items:center;justify-content:center;font-weight:800;color:#02101a}
+    nav{display:flex;gap:12px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;padding:8px 10px;border-radius:8px}
+    .cta{background:var(--accent);color:#071428;padding:8px 12px;border-radius:10px;text-decoration:none;font-weight:700}
+
+    .hero{display:grid;grid-template-columns:1fr 340px;gap:18px;margin-top:18px}
+    .card{background:linear-gradient(180deg,var(--card),#051422);border-radius:var(--radius);padding:18px;box-shadow:0 8px 30px rgba(2,6,23,0.6)}
+    .title{font-size:1.4rem;margin:0 0 6px}
+    .muted{color:var(--muted)}
+
+    /* fixtures */
+    .fixtures{margin-top:12px}
+    .filters{display:flex;gap:8px;flex-wrap:wrap}
+    .filter{padding:8px 10px;background:var(--glass);border-radius:999px;color:var(--muted);cursor:pointer}
+
+    .fixture-list{margin-top:12px;display:grid;gap:10px}
+    .match{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);cursor:pointer}
+    .teams{display:flex;align-items:center;gap:12px}
+    .team{display:flex;align-items:center;gap:8px}
+    .badge{width:44px;height:44px;border-radius:8px;background:#fff;color:#000;display:flex;align-items:center;justify-content:center;font-weight:700}
+    .score{font-weight:800}
+
+    /* standings */
+    .table{width:100%;border-collapse:collapse;margin-top:8px}
+    .table th,.table td{padding:10px;text-align:left;border-bottom:1px dashed rgba(255,255,255,0.03)}
+    .pos{width:36px}
+
+    /* gallery / news */
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+    .news{padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent)}
+
+    /* modal */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.6);padding:16px}
+    .modal.open{display:flex}
+    .modal-box{max-width:720px;width:100%;background:linear-gradient(180deg,#071a26,#021018);border-radius:12px;padding:18px}
+    .close{background:transparent;border:0;color:var(--muted);cursor:pointer}
+
+    /* footer */
+    footer{margin-top:18px;display:flex;justify-content:space-between;align-items:center;color:var(--muted)}
+
+    @media(max-width:980px){.hero{grid-template-columns:1fr}.grid-3{grid-template-columns:repeat(2,1fr)}nav{display:none}}
+    @media(max-width:560px){.grid-3{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">FC</div>
+        <div>
+          <div style="font-weight:700">FanClub</div>
+          <div class="muted" style="font-size:12px">Фан-сайт — новини, матчі, таблиця</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#home">Головна</a>
+        <a href="#fixtures">Матчі</a>
+        <a href="#standings">Турнірна таблиця</a>
+        <a class="cta" href="#subscribe">Підписатися</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="card">
+          <h1 class="title">Вболіваймо разом!</h1>
+          <p class="muted">Офіційний/неофіційний фан-сайт — анонси матчів, результати, новини та галерея.</p>
+
+          <div class="fixtures" id="fixtures">
+            <h3 style="margin:12px 0 8px">Найближчі матчі</h3>
+            <div class="filters" id="teamFilters">
+              <div class="filter" data-team="all">Усі</div>
+              <div class="filter" data-team="home">Наші</div>
+              <div class="filter" data-team="away">Гості</div>
+            </div>
+
+            <div class="fixture-list" id="fixtureList">
+              <div class="match" data-home="Динамо" data-away="Шахтар" data-date="2025-11-05">
+                <div class="teams"><div class="team"><div class="badge">D</div><div>Динамо</div></div><div style="color:var(--muted)">—</div><div class="team"><div class="badge">S</div><div>Шахтар</div></div></div>
+                <div class="meta"><div class="muted" style="font-size:12px">5 листопада • 19:00</div></div>
+              </div>
+
+              <div class="match" data-home="Зоря" data-away="Металіст" data-date="2025-11-09">
+                <div class="teams"><div class="team"><div class="badge">Z</div><div>Зоря</div></div><div style="color:var(--muted)">—</div><div class="team"><div class="badge">M</div><div>Металіст</div></div></div>
+                <div class="meta"><div class="muted" style="font-size:12px">9 листопада • 17:00</div></div>
+              </div>
+
+              <div class="match" data-home="Дніпро" data-away="Карпати" data-date="2025-11-13">
+                <div class="teams"><div class="team"><div class="badge">Dn</div><div>Дніпро</div></div><div style="color:var(--muted)">—</div><div class="team"><div class="badge">K</div><div>Карпати</div></div></div>
+                <div class="meta"><div class="muted" style="font-size:12px">13 листопада • 20:30</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px">
+            <h3 style="margin-bottom:8px">Останні новини</h3>
+            <div class="grid-3">
+              <div class="news"><strong>Трансфер</strong><div class="muted" style="font-size:12px;margin-top:6px">Капітан продовжив контракт на 3 роки.</div></div>
+              <div class="news"><strong>Матч</strong><div class="muted" style="font-size:12px;margin-top:6px">Підсумки товариської гри: 2-1.</div></div>
+              <div class="news"><strong>Галерея</strong><div class="muted" style="font-size:12px;margin-top:6px">Фото з фан-зони після перемоги.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <aside>
+          <div class="card">
+            <h3>Турнірна таблиця</h3>
+            <table class="table" id="standings">
+              <thead><tr><th class="pos">#</th><th>Команда</th><th>І</th><th>О</th></tr></thead>
+              <tbody>
+                <tr><td class="pos">1</td><td>Динамо</td><td>12</td><td>30</td></tr>
+                <tr><td class="pos">2</td><td>Шахтар</td><td>12</td><td>28</td></tr>
+                <tr><td class="pos">3</td><td>Зоря</td><td>12</td><td>24</td></tr>
+                <tr><td class="pos">4</td><td>Металіст</td><td>12</td><td>20</td></tr>
+              </tbody>
+            </table>
+
+            <div style="margin-top:12px">
+              <button class="cta" id="refreshStandings">Оновити таблицю</button>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section id="subscribe" style="margin-top:12px">
+        <div class="card">
+          <h3>Підписатися на оновлення</h3>
+          <p class="muted">Отримуйте анонси матчів і новини на email (демо — без реальної відправки).</p>
+          <form id="subForm" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+            <input name="email" type="email" placeholder="твій@пошта.com" required style="padding:10px;border-radius:8px;border:0;background:rgba(255,255,255,0.02);color:inherit;flex:1" />
+            <button class="cta" type="submit">Підписатися</button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div class="muted">© <span id="year"></span> FanClub — фан-сайт</div>
+      <div class="muted">Зроблено як демо — HTML/CSS/JS в одному файлі</div>
+    </footer>
+  </div>
+
+  <!-- modal для матчу -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <header style="display:flex;justify-content:space-between;align-items:center">
+        <div><strong id="modalTitle">Матч</strong><div class="muted" id="modalDate" style="font-size:12px"></div></div>
+        <button class="close" id="closeModal">Закрити ✕</button>
+      </header>
+      <div style="margin-top:12px" id="modalBody">
+        <p class="muted">Деталі матчу...</p>
+        <div style="margin-top:10px"><a class="cta" id="ticketLink" href="#" target="_blank">Купити квиток</a></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // рік
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // фільтри матчів
+    document.querySelectorAll('.filter').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const team = btn.dataset.team;
+        document.querySelectorAll('.filter').forEach(b=>b.style.background='');
+        btn.style.background='linear-gradient(90deg,var(--accent),var(--accent-2))';
+        document.querySelectorAll('.match').forEach(m=>{
+          if(team==='all') m.style.display='flex';
+          else if(team==='home' && m.dataset.home) m.style.display='flex';
+          else if(team==='away' && m.dataset.away) m.style.display='flex';
+          else if(team!=='all' && team!=='home' && team!=='away') m.style.display='none';
+        });
+      });
+    });
+
+    // відкриття модалки з деталями матчу
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDate = document.getElementById('modalDate');
+    const modalBody = document.getElementById('modalBody');
+    const closeModal = document.getElementById('closeModal');
+
+    function openMatch(matchEl){
+      const home = matchEl.dataset.home;
+      const away = matchEl.dataset.away;
+      const date = matchEl.dataset.date;
+      modalTitle.textContent = home + ' — ' + away;
+      modalDate.textContent = 'Дата: ' + date;
+      modalBody.querySelector('p').textContent = 'Матч: ' + home + ' проти ' + away + '. Початок: ' + date + '. Додаткова інформація: стадіон, склади, купити квитки.';
+      document.getElementById('ticketLink').href = 'https://example.com/tickets?match=' + encodeURIComponent(home+'-'+away);
+      modal.classList.add('open');
+    }
+
+    document.querySelectorAll('.match').forEach(m=>{
+      m.addEventListener('click', ()=> openMatch(m));
+      m.addEventListener('keydown', (e)=>{ if(e.key==='Enter') openMatch(m); });
+    });
+    closeModal.addEventListener('click', ()=> modal.classList.remove('open'));
+    modal.addEventListener('click', (e)=>{ if(e.target===modal) modal.classList.remove('open'); });
+
+    // оновити таблицю — приклад сортування (за очками)
+    document.getElementById('refreshStandings').addEventListener('click', ()=>{
+      const tbody = document.querySelector('#standings tbody');
+      // зчитати рядки, відсортувати за колонкою очок (4-я колонка)
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      rows.sort((a,b)=>parseInt(b.children[3].textContent) - parseInt(a.children[3].textContent));
+      rows.forEach((r,i)=>{ r.children[0].textContent = i+1; tbody.appendChild(r); });
+      alert('Турнірна таблиця оновлена (демо: сортування за очками).');
+    });
+
+    // підписка (демо)
+    document.getElementById('subForm').addEventListener('submit', e=>{
+      e.preventDefault();
+      const em = e.target.email.value;
+      if(!em) return; // required
+      // зберегти в localStorage як демонстрація
+      const list = JSON.parse(localStorage.getItem('fc_subs')||'[]');
+      list.push({email:em,at:new Date().toISOString()});
+      localStorage.setItem('fc_subs', JSON.stringify(list));
+      alert('Дякуємо! Ви підписані (демо): ' + em);
+      e.target.reset();
+    });
+
+    // accessibility: клавіша 'n' — перейти до наступного матчу (демо)
+    document.addEventListener('keydown', e=>{
+      if(e.key==='n'){
+        const visible = Array.from(document.querySelectorAll('.match')).filter(m=>m.style.display!=='none');
+        if(visible.length) visible[0].scrollIntoView({behavior:'smooth',block:'center'});
+      }
+    });
+
+  </script>
+</body>
+</html>
